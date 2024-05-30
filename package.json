@@ -1,0 +1,16 @@
+{
+  "name": "simple-jewelry-shop",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  }
+}
