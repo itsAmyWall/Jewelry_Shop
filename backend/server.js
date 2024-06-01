@@ -40,7 +40,7 @@ app.get('/api/products/:id', async (req, res) => {
 
 // Handle the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'frontend','pages', 'index.js'));
 });
 
 // Fallback for all other routes
