@@ -1,53 +1,58 @@
 const express = require('express');
-const path = require('path');
+const next = require('next');
 const { connectPostgres } = require('./config/database');
-const { syncDatabase, Product } = require('./models');
+const { syncDatabase } = require('./models/index');
+const Product = require('./models/Product');
 
-const app = express();
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const handle = app.getRequestHandler();
+
 const port = process.env.PORT || 5000;
 
-// Connect to PostgreSQL
-connectPostgres();
+app.prepare().then(() => {
+  const server = express();
 
-// Sync Database
-syncDatabase();
+  // Connect to PostgreSQL
+  connectPostgres();
 
-// Serve static files from the 'frontend' directory
-app.use(express.static(path.join(__dirname, '..', 'frontend')));
+  // Sync the database
+  syncDatabase();
 
-// Define your API routes
-app.get('/api/products', async (req, res) => {
-  try {
-    const products = await Product.findAll();
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch products' });
-  }
-});
-
-app.get('/api/products/:id', async (req, res) => {
-  try {
-    const product = await Product.findByPk(req.params.id);
-    if (product) {
-      res.json(product);
-    } else {
-      res.status(404).json({ error: 'Product not found' });
+  // Define your API routes
+  server.get('/api/products', async (req, res) => {
+    try {
+      const products = await Product.findAll();
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch products' });
     }
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch product' });
-  }
+  });
+
+  server.get('/api/products/:id', async (req, res) => {
+    const productId = req.params.id;
+    try {
+      const product = await Product.findByPk(productId);
+      if (product) {
+        res.json(product);
+      } else {
+        res.status(404).json({ error: 'Product not found' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch product' });
+    }
+  });
+
+  // Use Next.js to handle all other routes
+  server.all('*', (req, res) => {
+    return handle(req, res);
+  });
+
+  server.listen(port, (err) => {
+    if (err) throw err;
+    console.log(`Server running on port ${port}`);
+  });
+}).catch((err) => {
+  console.error('Error preparing Next.js app:', err);
 });
 
-// Handle the root URL
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend','pages', 'index.js'));
-});
-
-// Fallback for all other routes
-app.get('*', (req, res) => {
-  res.status(404).send('404 Not Found');
-});
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});

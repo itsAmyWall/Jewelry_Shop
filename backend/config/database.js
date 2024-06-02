@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+console.log('DB_URI:', process.env.DB_URI);  // Added this line to check if DB_URI is loaded
+
 const sequelize = new Sequelize(process.env.DB_URI, {
   dialect: 'postgres',
 });
