@@ -1,3 +1,10 @@
+const dotenv = require('dotenv');
+
+// Load environment variables from .env file
+console.log('Before loading environment variables');
+dotenv.config();
+console.log('After loading environment variables');
+
 const express = require('express');
 const next = require('next');
 const { connectPostgres } = require('./config/database');
@@ -7,6 +14,8 @@ const Product = require('./models/Product');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
+
+
 
 const port = process.env.PORT || 5000;
 

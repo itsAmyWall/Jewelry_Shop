@@ -1,5 +1,5 @@
-import { getProducts } from '../services/api';
-import ProductList from '../components/ProductList';
+import { getProducts } from '../frontend/services/api';
+import ProductList from '../frontend/components/ProductList';
 
 const HomePage = ({ products }) => {
   return (
