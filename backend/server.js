@@ -1,6 +1,4 @@
 const dotenv = require('dotenv');
-
-// Load environment variables from .env file
 console.log('Before loading environment variables');
 dotenv.config();
 console.log('After loading environment variables');
@@ -9,13 +7,11 @@ const express = require('express');
 const next = require('next');
 const { connectPostgres } = require('./config/database');
 const { syncDatabase } = require('./models/index');
-const Product = require('./models/Product');
+const Product = require('./models/Product'); // Only one Product import is needed
 
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
+const app = next({ dev, dir: './frontend' });
 const handle = app.getRequestHandler();
-
-
 
 const port = process.env.PORT || 5000;
 
@@ -25,8 +21,17 @@ app.prepare().then(() => {
   // Connect to PostgreSQL
   connectPostgres();
 
-  // Sync the database
-  syncDatabase();
+  // Sync the database and insert sample data once sync is complete
+  syncDatabase()
+    .then(() => {
+      console.log('Database synced successfully');
+
+      // Insert sample data after sync completes
+      insertSampleData();
+    })
+    .catch(err => {
+      console.error('Error syncing database:', err);
+    });
 
   // Define your API routes
   server.get('/api/products', async (req, res) => {
@@ -64,4 +69,30 @@ app.prepare().then(() => {
 }).catch((err) => {
   console.error('Error preparing Next.js app:', err);
 });
+
+async function insertSampleData() {
+  try {
+    await Product.create({
+      name: 'Gold Necklace',
+      price: 499.99,
+      imageUrl: '/ring.jpg',  // Add image URL
+      inStock: 10,  // Set the number of items in stock
+    });
+    await Product.create({
+      name: 'Silver Ring',
+      price: 149.99,
+      imageUrl: '/ring.jpg',  // Add image URL
+      inStock: 20,  // Set the number of items in stock
+    });
+    await Product.create({
+      name: 'Diamond Earrings',
+      price: 999.99,
+      imageUrl: '/ring.jpg',  // Add image URL
+      inStock: 5,  // Set the number of items in stock
+    });
+    console.log('Sample data inserted successfully');
+  } catch (error) {
+    console.error('Error inserting sample data:', error);
+  }
+}
 
