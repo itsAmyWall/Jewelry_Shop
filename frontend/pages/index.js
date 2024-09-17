@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Head from 'next/head';
+import { FaShoppingCart, FaSearch, FaUser } from 'react-icons/fa';
+import { BiMailSend } from 'react-icons/bi';
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -31,11 +33,30 @@ const HomePage = () => {
       <Head>
         <title>Maurer Jewelry</title>
       </Head>
+      <h1 className="bg-red-500 text-3xl font-bold text-center flex-1">
+  Maurer Jewelry
+</h1>
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-4 text-center">Maurer Jewelry</h1>
+        <div className="flex items-center justify-between mb-4">
+          <button className="bg-blue-500 text-white py-2 px-4 rounded flex items-center">
+            <BiMailSend className="mr-2 text-xl" /> Contact Us
+          </button>
+          <h1 className="text-3xl font-bold text-center flex-1">Maurer Jewelry</h1>
+          <div className="flex space-x-4 items-center">
+            <button className="p-2">
+              <FaSearch className="text-xl" />
+            </button>
+            <button className="p-2">
+              <FaShoppingCart className="text-xl" />
+            </button>
+            <button className="p-2">
+              <FaUser className="text-xl" />
+            </button>
+          </div>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {products.map((product) => (
-            <div key={product.id} className="product-card border p-4 rounded-lg shadow-lg flex flex-col items-center">
+            <div key={product.id} className="border p-4 rounded-lg shadow-lg flex flex-col items-center">
               <img
                 src={product.imageUrl || '/path/to/default-image.jpg'}
                 alt={product.name}
