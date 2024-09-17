@@ -33,9 +33,7 @@ const HomePage = () => {
       <Head>
         <title>Maurer Jewelry</title>
       </Head>
-      <h1 className="bg-red-500 text-3xl font-bold text-center flex-1">
-  Maurer Jewelry
-</h1>
+      
       <div className="container mx-auto p-4">
         <div className="flex items-center justify-between mb-4">
           <button className="bg-blue-500 text-white py-2 px-4 rounded flex items-center">
