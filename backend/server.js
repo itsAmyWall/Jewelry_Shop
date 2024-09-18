@@ -75,24 +75,41 @@ async function insertSampleData() {
     await Product.create({
       name: 'Gold Necklace',
       price: 499.99,
-      imageUrl: '/ring.jpg',  // Add image URL
-      inStock: 10,  // Set the number of items in stock
+      imageUrl: '/ring.jpg',  // Updated image URL
+      inStock: 10,
     });
     await Product.create({
       name: 'Silver Ring',
       price: 149.99,
-      imageUrl: '/ring.jpg',  // Add image URL
-      inStock: 20,  // Set the number of items in stock
+      imageUrl: '/ring.jpg',  // Updated image URL
+      inStock: 20,
     });
     await Product.create({
       name: 'Diamond Earrings',
       price: 999.99,
-      imageUrl: '/ring.jpg',  // Add image URL
-      inStock: 5,  // Set the number of items in stock
+      imageUrl: '/ring.jpg',  // Updated image URL
+      inStock: 5,
+    });
+    await Product.create({
+      name: 'Emerald Bracelet',
+      price: 799.99,
+      imageUrl: '/ring.jpg',  // New product image URL
+      inStock: 8,
+    });
+    await Product.create({
+      name: 'Platinum Watch',
+      price: 1299.99,
+      imageUrl: '/ring.jpg',  // New product image URL
+      inStock: 6,
+    });
+    await Product.create({
+      name: 'Rose Gold Pendant',
+      price: 399.99,
+      imageUrl: '/ring.jpg',  // New product image URL
+      inStock: 12,
     });
     console.log('Sample data inserted successfully');
   } catch (error) {
     console.error('Error inserting sample data:', error);
   }
 }
-
