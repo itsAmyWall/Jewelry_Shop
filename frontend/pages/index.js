@@ -242,6 +242,10 @@ const HomePage = () => {
                 <BiMailSend className="mr-2 text-lg" />
                 info@maurerjewelry.com
               </a>
+              <a href="mailto:info@maurerjewelry.com" className="flex items-center hover:text-gray-400 transition duration-300">
+                <BiMailSend className="mr-2 text-lg" />
+                info@maurerjewelry.com
+              </a>
             </div>
           </section>
         </div>
